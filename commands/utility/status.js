@@ -44,13 +44,13 @@ module.exports = {
 					.setDescription(`This application is managed by **squidnugget77**!`)
 					.addFields(
 						{ name: `Version`, value: `${version}` },
-						{ name: `Process Memory Usage`, value: `${processMemoryUsage}` },
-						{ name: `Total Memory Usage`, value: `${totalMemoryUsage}` },
+						{ name: `Process Memory Usage`, value: `${processMemoryUsage}`, inline: true },
+						{ name: `Total Memory Usage`, value: `${totalMemoryUsage}`, inline: true },
 						{ name: `Bot Uptime`, value: `${botUptime}`},
 						{ name: `Connection Uptime`, value: `${connectionUptime}`},
 						{ name: `Host`, value: `${host}`},
-						{ name: `Library`, value: `${library}`},
-						{ name: `Node Version`, value: `${nodeVersion}`},
+						{ name: `Library`, value: `${library}`, inline: true},
+						{ name: `Node Version`, value: `${nodeVersion}`, inline: true},
 						{ name: `Servers`, value: `${servers}`}
 						)
 					.setTimestamp()
