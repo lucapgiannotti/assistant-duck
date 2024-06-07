@@ -31,7 +31,7 @@ module.exports = {
 			return `${days} days, ${hours % 24} hours, ${minutes % 60} minutes, ${seconds % 60} seconds`;
 		}
 
-		const host = os.platform();
+		const host = `${os.type()} ${os.release()}`;
         const library = "discord.js" + package.dependencies['discord.js']
         const nodeVersion = process.version;
         const servers = client.guilds.cache.size;
