@@ -12,15 +12,6 @@ module.exports = {
 		const processMemoryUsage = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2) + ' MB';
 		const totalMemoryUsage = (os.totalmem() / 1024 / 1024).toFixed(2) + ' MB';
 		const botUptime = formatTime(client.uptime);
-		function formatTime(milliseconds) {
-			const seconds = Math.floor(milliseconds / 1000);
-			const minutes = Math.floor(seconds / 60);
-			const hours = Math.floor(minutes / 60);
-			const days = Math.floor(hours / 24);
-
-			return `${days} days, ${hours % 24} hours, ${minutes % 60} minutes, ${seconds % 60} seconds`;
-		}
-
 		const connectionUptime = formatTime(client.ws.ping);
 		function formatTime(milliseconds) {
 			const seconds = Math.floor(milliseconds / 1000);
@@ -35,8 +26,6 @@ module.exports = {
         const library = "discord.js" + package.dependencies['discord.js']
         const nodeVersion = process.version;
         const servers = client.guilds.cache.size;
-
-
 
 		const embed = new Discord.EmbedBuilder()
 					.setAuthor({ name: client.user.username + " ~ status", iconURL: client.user.avatarURL({ dynamic: true })})
