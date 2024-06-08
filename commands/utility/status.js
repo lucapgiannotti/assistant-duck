@@ -8,7 +8,7 @@ module.exports = {
     name: 'status',
     description: "Get core information about the bot and the system hosting it!",
     async execute({ client, inter }) {
-        const version = package.version;
+        const version = "v" + package.version;
 		const processMemoryUsage = (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2) + ' MB';
 		const totalMemoryUsage = (os.totalmem() / 1024 / 1024).toFixed(2) + ' MB';
 		const botUptime = formatTime(client.uptime);
@@ -22,7 +22,7 @@ module.exports = {
 			return `${days} days, ${hours % 24} hours, ${minutes % 60} minutes, ${seconds % 60} seconds`;
 		}
 
-		const host = `${os.type()} ${os.release()}`;
+		const host = `${os.type()} ${os.release()} ${os.arch()}`;
         const library = "discord.js" + package.dependencies['discord.js']
         const nodeVersion = process.version;
         const servers = client.guilds.cache.size;
@@ -42,7 +42,7 @@ module.exports = {
 						{ name: `Node Version`, value: `${nodeVersion}`, inline: true},
 						{ name: `Servers`, value: `${servers}`}
 						)
-					.setTimestamp()
+					.setTimestamp() 
 
 
 				inter.reply({ embeds: [embed]})
