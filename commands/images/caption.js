@@ -30,12 +30,39 @@ module.exports = {
 		const image = await loadImage(imageUrl);
 
 		// Calculate the dimensions for the white bar and text
-		const barHeight = image.height * 0.1; // 10% of the image height
 		const fontSize = image.height * 0.08; // 8% of the image height
 
-		// Create a canvas the same size as the image plus the bar height
+		// Create a canvas to measure the text
 		registerFont('./src/Impact 400.ttf', { family: 'Impact' });
+		const tempCanvas = createCanvas(image.width, image.height);
+		const tempCtx = tempCanvas.getContext('2d');
+		tempCtx.font = `${fontSize}px Impact`;
 
+		// Function to wrap text and calculate the required height
+		function wrapText(context, text, maxWidth, lineHeight) {
+			const words = text.split(' ');
+			let line = '';
+			let lines = [];
+
+			for (let n = 0; n < words.length; n++) {
+				let testLine = line + words[n] + ' ';
+				let metrics = context.measureText(testLine);
+				let testWidth = metrics.width;
+				if (testWidth > maxWidth && n > 0) {
+					lines.push(line);
+					line = words[n] + ' ';
+				} else {
+					line = testLine;
+				}
+			}
+			lines.push(line);
+			return lines;
+		}
+
+		const lines = wrapText(tempCtx, caption, image.width - 20, fontSize);
+		const barHeight = (lines.length + .3) * fontSize; // Add an extra line height for padding
+
+		// Create a canvas the same size as the image plus the bar height
 		const canvas = createCanvas(image.width, image.height + barHeight);
 		const ctx = canvas.getContext('2d');
 
@@ -52,11 +79,14 @@ module.exports = {
 
 		// Add the caption to the top of the image
 		ctx.fillStyle = 'black';
-		// Calculate the y-coordinate for the text to be vertically centered in the bar
-		const textY = barHeight / 2 + fontSize / 2 - 5; // Adjust the -5 value as needed for better centering
 
-		// Add the caption to the top of the image
-		ctx.fillText(caption, image.width / 2, textY);
+		// Calculate the y-coordinate for the text to be vertically centered in the bar
+		const textY = fontSize; // Start at the font size height
+
+		// Draw the caption text
+		lines.forEach((line, index) => {
+			ctx.fillText(line, image.width / 2, textY + index * fontSize);
+		});
 
 		// Convert the canvas to a Buffer
 		const buffer = canvas.toBuffer('image/png');
